@@ -1,0 +1,36 @@
+<div class="full">
+  <div class="header">
+    <p>Mischief Cinema</p>
+    <p class="subHeader">Nothing is certain here!</p>
+  </div>
+  <div class="daySelector">
+    <div class="dropdown">
+      <select class="dropdown-select">
+        <option value="">All Genres</option>
+        <option *ngFor="let genre of genres" [value]="genre">{{genre}}</option>
+      </select>
+    </div>
+    <div class="day" (click)="updateMovieSlice(0)">Mon</div>
+    <div class="day" (click)="updateMovieSlice(5)">Tue</div>
+    <div class="day" (click)="updateMovieSlice(10)">Wed</div>
+    <div class="day" (click)="updateMovieSlice(15)">Thu</div>
+    <div class="day" (click)="updateMovieSlice(20)">Fri</div>
+    <div class="day" (click)="updateMovieSlice(25)">Sat</div>
+    <div class="day" (click)="updateMovieSlice(30)">Sun</div>
+  </div>
+  <div class="dayContainer" *ngIf="movies">
+    <div *ngFor="let movie of getMoviesSlice(); let i = index">
+      <div class="movie">
+        <img class="image" [src]="'../assets/pics/Movie' + (getNumber()+i+1) + '.png'">
+        <p class="primaryTitle">{{movie.primaryTitle}}</p>
+        <p class="originalTitle">{{movie.originalTitle}}</p>
+        <div class="movieFooter">
+          <p class="startYear">{{movie.startYear}}</p>
+          <p class="runtimeMinutes">{{movie.runtimeMinutes}} minutes</p>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+</div>
