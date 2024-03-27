@@ -1,0 +1,12 @@
+1. make database static
+2. randomly filmid igale nädalapäevale
+3. filtrid:
+    rating
+    žanr
+    jne.
+
+4. kui kasutajal on kino külastus ajalugu.
+
+5. istekohtade soovitamine
+
+mingi ui ka
