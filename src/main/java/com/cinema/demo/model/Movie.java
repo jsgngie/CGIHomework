@@ -26,19 +26,19 @@ public class Movie {
     @Column(name = "movie_id")
     private String movieId;
 
-    @Column(name = "titleType")
+    @Column(name = "titletype")
     private String titleType;
 
-    @Column(name = "primaryTitle")
+    @Column(name = "primarytitle")
     private String primaryTitle;
 
-    @Column(name = "originalTitle")
+    @Column(name = "originaltitle")
     private String originalTitle;
 
-    @Column(name = "startYear")
+    @Column(name = "startyear")
     private Integer startYear;
 
-    @Column(name = "runtimeMinutes")
+    @Column(name = "runtimeminutes")
     private Integer runtimeMinutes;
 
     @Column(name = "genres")

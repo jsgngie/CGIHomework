@@ -1,4 +1,4 @@
-CREATE TABLE movie (
+CREATE TABLE IF NOT EXISTS movie (
                          id INT PRIMARY KEY,
                          movie_id VARCHAR(255),
                          titleType VARCHAR(255),
@@ -11,7 +11,7 @@ CREATE TABLE movie (
 
 );
 
-CREATE TABLE rating (
+CREATE TABLE IF NOT EXISTS rating (
                          id INT PRIMARY KEY,
                          movie_id VARCHAR(255),
                          rating DOUBLE,
