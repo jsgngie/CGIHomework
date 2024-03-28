@@ -108,3 +108,44 @@
     justify-content: space-between;
     margin:10px;
 }
+
+.popupContainer {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width:60%;
+    height: 600px;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none; 
+    transition: opacity 0.3s ease;
+}
+
+.popupContainer.visible {
+    opacity: 1; /* Show the container */
+    pointer-events: auto; /* Make it clickable */
+}
+
+.popImage {
+    height: 300px;
+    border-radius: 10px;
+}
+
+.popUpPrimaryTitle {
+    font-size: 20px;
+}
+
+.movieInfo {
+    display:flex;
+    flex-direction: column;
+    justify-content:space-around;
+    align-items: center;
+}

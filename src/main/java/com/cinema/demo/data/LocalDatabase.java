@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashSet;
 
 
@@ -21,11 +22,13 @@ public class LocalDatabase {
 
     private HashSet<String> chosen;
 
+    private HashSet<String> filter;
     @Autowired
     public LocalDatabase(MovieRepository movieRepository, RatingRepository ratingRepository) {
         this.movieRepository = movieRepository;
         this.ratingRepository = ratingRepository;
         this.chosen = new HashSet<>();
+        this.filter = createFilter();
     }
 
     public void readRatingTSV() {
@@ -49,7 +52,6 @@ public class LocalDatabase {
 
                 Rating newRating = new Rating();
 
-
                 newRating.setRating(Double.parseDouble(parts[1]));
                 newRating.setMovieId(parts[0]);
                 newRating.setRatingCount(Integer.parseInt(parts[2]));
@@ -72,7 +74,6 @@ public class LocalDatabase {
             boolean isFirst = true;
 
             while ((line = br.readLine()) != null) {
-                line = br.readLine();
 
                 //skip column headers
                 if (isFirst) {
@@ -91,6 +92,19 @@ public class LocalDatabase {
                 //Checks
                 if (parseNullableInt(parts[7]) == null || !titleType.equals("movie") || isAdult == 1 || originalTitle.length() > 255 || primaryTitle.length() > 255) continue;
 
+                String[] genres = parts[8].split(",");
+
+                boolean flag = false;
+
+                for (String genre : genres) {
+                    if (filter.contains(genre)) {
+                        flag = true;
+                        break;
+                    }
+                }
+
+                if (flag) continue;
+                //profanity filter
                 Movie newMovie = new Movie();
 
                 //Setting values
@@ -121,5 +135,20 @@ public class LocalDatabase {
 
     private static String checkNull(String value) {
         return "\\N".equals(value) ? null : value;
+    }
+
+    public static HashSet<String> createFilter() {
+        HashSet<String> filter = new HashSet<>();
+        String line;
+
+        try (BufferedReader br = new BufferedReader(new FileReader("src/main/java/com/cinema/demo/data/blacklist.txt"))) {
+            while ((line = br.readLine()) != null) {
+                String[] parts = line.split(",");
+                filter.addAll(Arrays.asList(parts));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return filter;
     }
 }

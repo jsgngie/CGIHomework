@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { MovieService } from './movie.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Movie } from './movie';
+import { RatingService } from './rating.service';
+import { Observable } from 'rxjs';
+import { Rating } from './rating';
 
 @Component({
   selector: 'app-root',
@@ -11,13 +14,19 @@ import { Movie } from './movie';
 export class AppComponent implements OnInit {
   title = 'cinemaClient';
 
+  selectedMovie: any;
+  isPopupVisible: boolean = false;
+  popUpImg: any;
+
   movies!: Movie[];
   genres: string[] = [];
 
   startIdx: number = 0;
   endIdx: number = 5;
 
-  constructor(private movieService: MovieService) {}
+  ratings: any;
+
+  constructor(private movieService: MovieService, private ratingService: RatingService) {}
 
   ngOnInit(): void {
     this.getMovies();
@@ -59,6 +68,27 @@ export class AppComponent implements OnInit {
       }
     });
     console.log(this.genres);
+  }
+
+  
+  showPopup(movie: any, popUpImg: any): void {
+    this.selectedMovie = movie;
+
+    this.ratingService.getMovieRating(movie.movie_id).subscribe(
+      (response: Rating[]) => {
+        this.ratings = response;
+      },
+      (error: HttpErrorResponse) => {console.log(error.message);}
+    );
+
+    this.popUpImg = popUpImg;
+    this.isPopupVisible = true; 
+  }
+
+  
+  closePopup(): void {
+    this.selectedMovie = null;
+    this.isPopupVisible = false;
   }
 
 }
