@@ -205,39 +205,62 @@ public class LocalDatabase {
 
             while ((line = br.readLine()) != null) {
 
-                /**
+
                 if (line.contains("\"")) {
                     Pattern pattern = Pattern.compile("\"([^\"]*)\"");
                     Matcher matcher = pattern.matcher(line);
                     while (matcher.find()) {
                         String genres = matcher.group(1);
+                        line = line.replace(genres, "");
+
+                        String[] parts = line.split(",");
+
+                        String runtime = parts[0];
+                        String startyear = parts[1];
+                        String movieId = parts[4];
+                        String originalTitle = parts[5];
+                        String primaryTitle = parts[6];
+                        String titleType = parts[7];
+
+                        Movie newMovie = new Movie();
+
+                        //Setting values
+                        newMovie.setMovieId(movieId);
+                        newMovie.setTitleType(checkNull(titleType));
+                        newMovie.setPrimaryTitle(checkNull(primaryTitle));
+                        newMovie.setOriginalTitle(checkNull(originalTitle));
+                        newMovie.setStartYear(parseNullableInt(startyear));
+                        newMovie.setRuntimeMinutes(parseNullableInt(runtime));
+                        newMovie.setGenres(checkNull(genres));
+
+                        System.out.println("Adding movie....");
+                        movieRepository.save(newMovie);
                     }
                 } else {
                     String[] parts = line.split(",");
-                } **/
 
-                String[] parts = line.split(",");
-                String runtime = parts[0];
-                String startyear = parts[1];
-                String genres = parts[3];
-                String movieId = parts[4];
-                String originalTitle = parts[5];
-                String primaryTitle = parts[6];
-                String titleType = parts[7];
+                    String runtime = parts[0];
+                    String startyear = parts[1];
+                    String genres = parts[3];
+                    String movieId = parts[4];
+                    String originalTitle = parts[5];
+                    String primaryTitle = parts[6];
+                    String titleType = parts[7];
 
-                Movie newMovie = new Movie();
+                    Movie newMovie = new Movie();
 
-                //Setting values
-                newMovie.setMovieId(movieId);
-                newMovie.setTitleType(checkNull(titleType));
-                newMovie.setPrimaryTitle(checkNull(primaryTitle));
-                newMovie.setOriginalTitle(checkNull(originalTitle));
-                newMovie.setStartYear(parseNullableInt(startyear));
-                newMovie.setRuntimeMinutes(parseNullableInt(runtime));
-                newMovie.setGenres(checkNull(genres));
+                    //Setting values
+                    newMovie.setMovieId(movieId);
+                    newMovie.setTitleType(checkNull(titleType));
+                    newMovie.setPrimaryTitle(checkNull(primaryTitle));
+                    newMovie.setOriginalTitle(checkNull(originalTitle));
+                    newMovie.setStartYear(parseNullableInt(startyear));
+                    newMovie.setRuntimeMinutes(parseNullableInt(runtime));
+                    newMovie.setGenres(checkNull(genres));
 
-                System.out.println("Adding movie....");
-                movieRepository.save(newMovie);
+                    System.out.println("Adding movie....");
+                    movieRepository.save(newMovie);
+                }
             }
 
         } catch (IOException e) {
