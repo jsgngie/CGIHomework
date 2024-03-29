@@ -16,6 +16,7 @@ public class CinemaApplication {
 	@Bean
 	CommandLineRunner commandLineRunner(LocalDatabase localDatabase) {
 		return args -> {
+			localDatabase.readAll();
 		};
 	}
 }

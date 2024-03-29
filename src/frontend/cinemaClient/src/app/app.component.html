@@ -77,13 +77,17 @@
           <div class="rating">{{this.ratings.rating}}/10</div>
           <div class="ratingCount">{{this.ratings.ratingCount}} votes</div>
         </div>
-        <button (click)="submitMovie(selectedMovie)" class="watch">Submit</button>
+
       </div>
       <div class="seatSelection">
         <app-seating></app-seating>
       </div>
       <p class="exit" (click)="closePopup()">X</p>
     </div>
+    <div class="buttonContainer">
+      <button (click)="submitMovie(selectedMovie)" class="watch">Buy</button>
+    </div>
+    
   </div>
   
 </div>

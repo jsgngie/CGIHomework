@@ -26,15 +26,30 @@ public class MovieService {
         this.watchedRepository = watchedRepository;
     }
 
+    /**
+     * @return a list of thirty-five random movies.
+     */
     public List<Movie> findRandomThirtyFive() {
         return movieRepository.findRandomMoviesThirtyFive();
     }
 
+    /**
+     * @param id - id of movie which rating is searched for.
+     * @return rating if found null if not
+     */
     public Optional<Rating> findRatingByMovieId(String id) {
         return ratingRepository.findByMovieId(id);
     }
 
+    /**
+     *
+     * @param movie - movie to be added to the watched movies table of the database
+     * @return - response
+     */
     public WatchedMovies watchMovie(WatchedMovies movie) { return watchedRepository.save(movie);}
 
+    /**
+     * @return Finds all instances of watched movies.
+     */
     public Iterable<WatchedMovies> findWatched() { return watchedRepository.findAll();}
 }

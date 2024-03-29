@@ -71,14 +71,14 @@ export class SeatingComponent implements OnInit{
     if (!/^\d+$/.test(input) || parseInt(input) < 1 || parseInt(input) > 5) {
       event.target.value = '';
     } else {
+      this.selectedSeats = [];
       this.numPeople = parseInt(input);
-      // Call recommendation function when the input value changes
       this.recommendSeats();
     }
   }
 
   recommendSeats() {
-
+    // TODO
   }
 
 }

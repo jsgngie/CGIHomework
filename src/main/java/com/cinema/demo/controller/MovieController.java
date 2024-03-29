@@ -24,7 +24,7 @@ public class MovieController {
 
     private final LocalDatabase database;
 
-    //DEV
+    //Reads movies from .tsv files.
     @GetMapping("/readMovies")
     public String readBasics() {
         database.readMoviesTSV(true);
@@ -32,30 +32,35 @@ public class MovieController {
         return "data read";
     }
 
+    //Reads only ratings from .tsv files to database.
     @GetMapping("/readRating")
     public String readRatings() {
         database.readRatingTSV(false);
         return "data read";
     }
 
+    //Returns 35 random movies for frontend
     @GetMapping("/randomMovies")
     public ResponseEntity<List<Movie>> getRandomMovies() {
         List<Movie> randomMovies = movieService.findRandomThirtyFive();
         return new ResponseEntity<>(randomMovies, HttpStatus.OK);
     }
 
+    //Finds movie rating by movie id
     @GetMapping("/findRating/{id}")
     public ResponseEntity<Optional<Rating>> getRatingById(@PathVariable String id) {
         Optional<Rating> rating = movieService.findRatingByMovieId(id);
         return new ResponseEntity<>(rating, HttpStatus.OK);
     }
 
+    //Adds movie to watched movies table of database
     @PostMapping("/watchMovie")
     public ResponseEntity<WatchedMovies> watchMovie(@RequestBody WatchedMovies movie) {
         WatchedMovies newMovie = movieService.watchMovie(movie);
         return new ResponseEntity<>(newMovie, HttpStatus.CREATED);
     }
 
+    //Gets list of watched movie genres and their counts.
     @GetMapping("/getWatched")
     public ResponseEntity<HashMap<String, Integer>> watchMovie() {
         Iterable<WatchedMovies> movies = movieService.findWatched();
