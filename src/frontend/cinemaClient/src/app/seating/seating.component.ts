@@ -8,10 +8,11 @@ import { Component, Input, OnInit } from '@angular/core';
 export class SeatingComponent implements OnInit{
   
   rows: number = 9;
-  columns: number = 10; 
+  columns: number = 9; 
 
   selectedSeats: any[] = []; 
   takenSeats: any[] = [];
+  numPeople: number = 0;
 
   constructor() { }
 
@@ -69,7 +70,15 @@ export class SeatingComponent implements OnInit{
     var input = event.target.value;
     if (!/^\d+$/.test(input) || parseInt(input) < 1 || parseInt(input) > 5) {
       event.target.value = '';
-    } 
+    } else {
+      this.numPeople = parseInt(input);
+      // Call recommendation function when the input value changes
+      this.recommendSeats();
+    }
+  }
+
+  recommendSeats() {
+
   }
 
 }

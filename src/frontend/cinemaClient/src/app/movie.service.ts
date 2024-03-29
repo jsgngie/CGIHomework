@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Movie } from './movie';
+import { watchedMovie } from './watchedMovie';
 
 @Injectable({
   providedIn: 'root'
@@ -15,8 +16,13 @@ export class MovieService {
     return this.http.get<Movie[]>(url);
 }
 
-public watchMovie(movie: Movie): Observable<Movie> {
+public watchMovie(movie: watchedMovie): Observable<watchedMovie> {
     const url = `${this.baseUrl}/watchMovie`;
-    return this.http.post<Movie>(url, {movie});
+    return this.http.post<watchedMovie>(url, movie);
+}
+
+public getWatched() : Observable<Map<String, number>> {
+  const url = `${this.baseUrl}/getWatched`;
+    return this.http.get<Map<String, number>>(url);
 }
 }

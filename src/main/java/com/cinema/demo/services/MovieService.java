@@ -2,8 +2,10 @@ package com.cinema.demo.services;
 
 import com.cinema.demo.model.Movie;
 import com.cinema.demo.model.Rating;
+import com.cinema.demo.model.WatchedMovies;
 import com.cinema.demo.repository.MovieRepository;
 import com.cinema.demo.repository.RatingRepository;
+import com.cinema.demo.repository.WatchedRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,10 +17,13 @@ public class MovieService {
     private final MovieRepository movieRepository;
     private final RatingRepository ratingRepository;
 
+    private final WatchedRepository watchedRepository;
+
     @Autowired
-    public MovieService(MovieRepository movieRepository, RatingRepository ratingRepository) {
+    public MovieService(MovieRepository movieRepository, RatingRepository ratingRepository, WatchedRepository watchedRepository) {
         this.movieRepository = movieRepository;
         this.ratingRepository = ratingRepository;
+        this.watchedRepository = watchedRepository;
     }
 
     public List<Movie> findRandomThirtyFive() {
@@ -29,5 +34,7 @@ public class MovieService {
         return ratingRepository.findByMovieId(id);
     }
 
+    public WatchedMovies watchMovie(WatchedMovies movie) { return watchedRepository.save(movie);}
 
+    public Iterable<WatchedMovies> findWatched() { return watchedRepository.findAll();}
 }

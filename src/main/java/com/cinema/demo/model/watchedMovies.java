@@ -15,7 +15,7 @@ import org.springframework.data.annotation.Id;
 @AllArgsConstructor
 @Table(name = "watchedMovies", schema = "public")
 
-public class watchedMovies {
+public class WatchedMovies {
 
     @jakarta.persistence.Id
     @Id

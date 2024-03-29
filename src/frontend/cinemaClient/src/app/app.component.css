@@ -128,8 +128,8 @@
 }
 
 .popupContainer.visible {
-    opacity: 1; /* Show the container */
-    pointer-events: auto; /* Make it clickable */
+    opacity: 1;
+    pointer-events: auto;
 }
 
 .popupContent {

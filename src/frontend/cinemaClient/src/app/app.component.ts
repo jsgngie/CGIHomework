@@ -3,8 +3,9 @@ import { MovieService } from './movie.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Movie } from './movie';
 import { RatingService } from './rating.service';
-import { Observable } from 'rxjs';
+import { Observable, filter } from 'rxjs';
 import { Rating } from './rating';
+import { watchedMovie } from './watchedMovie';
 
 @Component({
   selector: 'app-root',
@@ -20,11 +21,17 @@ export class AppComponent implements OnInit {
   dayIndex: number = -1;
 
   movies!: Movie[];
+  filteredMovies!: Movie[];
   genres: string[] = [];
 
   ratings!: Rating;
 
   selectedGenre: string = "";
+
+  weights!: Map<String, number>;
+  
+  recommendationTriggered = false;
+  recommendedMovies!: Movie[];
 
   constructor(private movieService: MovieService, private ratingService: RatingService) {}
 
@@ -101,7 +108,7 @@ export class AppComponent implements OnInit {
 
         return selectedGenres.some(selectedGenre => movieGenres.includes(selectedGenre.trim()));
     });
-    }
+  }
 
     return filteredMovies;
   }
@@ -112,9 +119,61 @@ export class AppComponent implements OnInit {
 
   submitMovie(movie: Movie): void {
     console.log(movie)
-    window.location.reload();
-    this.movieService.watchMovie(movie);
+    var watchedMovie: watchedMovie = {
+      movie_id: movie.movie_id,
+      titleType: movie.titleType,
+      primaryTitle: movie.primaryTitle,
+      originalTitle: movie.originalTitle,
+      startYear: movie.startYear,
+      runtimeMinutes: movie.runtimeMinutes,
+      genres: movie.genres
+    }
+    this.movieService.watchMovie(watchedMovie).subscribe(
+      (response: watchedMovie) => {console.log(response)},
+      (response: HttpErrorResponse) => {console.log(response.message)}
+    );
+    
+    setTimeout(() => {
+      window.location.reload();
+  }, 1000);
   }
 
+  recommendMovies() {
 
+    this.movieService.getWatched().subscribe(
+      (response: Map<String, number>) => {this.weights = new Map(Object.entries(response));},
+      
+      (response: HttpErrorResponse) => {console.log(response.message)}
+    );
+    
+    var values = new Map<Movie, number>();
+
+    if (this.weights && this.weights.size > 0) {
+      var count = 0;
+
+      for (let i = 0; i < this.movies.length; i++) {
+        var score = 0;
+
+        var genres = this.movies[i].genres.split(",")
+        
+        genres.forEach(genre => {
+          score += this.weights.get(genre) || 0;
+        });
+
+        values.set(this.movies[i], score);
+    
+      }
+
+      var sortedEntries = Array.from(values.entries());
+
+      sortedEntries.sort((a, b) => b[1] - a[1]);
+
+      var topFive = sortedEntries.slice(0, 5);
+
+      var topFiveKeys = topFive.map(entry => entry[0]);
+  
+
+      this.recommendedMovies = topFiveKeys
+    }
+  }
 }

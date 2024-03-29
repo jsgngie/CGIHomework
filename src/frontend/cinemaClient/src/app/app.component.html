@@ -13,23 +13,44 @@
         <option *ngFor="let genre of genres" [value]="genre">{{genre}}</option>
       </select>
     </div>
-    
-    <div class="day" (click)="this.dayIndex = -1">All</div>
-    <div class="day" (click)="this.dayIndex = 0">Mon</div>
-    <div class="day" (click)="this.dayIndex = 1">Tue</div>
-    <div class="day" (click)="this.dayIndex = 2">Wed</div>
-    <div class="day" (click)="this.dayIndex = 3">Thu</div>
-    <div class="day" (click)="this.dayIndex = 4">Fri</div>
-    <div class="day" (click)="this.dayIndex = 5">Sat</div>
-    <div class="day" (click)="this.dayIndex = 6">Sun</div>
+    <div class="day" (click)="recommendMovies(); recommendationTriggered = true;">Recommend by history</div>
+    <div class="day" (click)="this.dayIndex = -1; recommendationTriggered = false;">All</div>
+    <div class="day" (click)="this.dayIndex = 0; recommendationTriggered = false;">Mon</div>
+    <div class="day" (click)="this.dayIndex = 1; recommendationTriggered = false;">Tue</div>
+    <div class="day" (click)="this.dayIndex = 2; recommendationTriggered = false;">Wed</div>
+    <div class="day" (click)="this.dayIndex = 3; recommendationTriggered = false;">Thu</div>
+    <div class="day" (click)="this.dayIndex = 4; recommendationTriggered = false;">Fri</div>
+    <div class="day" (click)="this.dayIndex = 5; recommendationTriggered = false;">Sat</div>
+    <div class="day" (click)="this.dayIndex = 6; recommendationTriggered = false;">Sun</div>
 
   </div>
 
-  <div class="dayContainer" *ngIf="movies">
+  <div class="dayContainer" *ngIf="!recommendationTriggered && movies">
 
     <div *ngFor="let movie of filterMovies(); let i = index">
 
-      <div class="movie" (click)="showPopup(this.movie, '../assets/pics/Movie1.png')">
+      <div class="movie" (click)="showPopup(this.movie, getMovieImagePath(i))">
+        
+        <img class="image" [src]="getMovieImagePath(i)">
+        <p class="primaryTitle">{{movie.primaryTitle}}</p>
+        <p class="originalTitle">{{movie.originalTitle}}</p>
+        
+        <div class="movieFooter">
+          <p class="startYear">{{movie.startYear}}</p>
+          <p class="runtimeMinutes">{{movie.runtimeMinutes}} minutes</p>
+        
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+  <div class="dayContainer" *ngIf="recommendationTriggered && recommendedMovies">
+
+    <div *ngFor="let movie of recommendedMovies; let i = index">
+
+      <div class="movie" (click)="showPopup(this.movie, getMovieImagePath(i))">
         
         <img class="image" [src]="getMovieImagePath(i)">
         <p class="primaryTitle">{{movie.primaryTitle}}</p>
