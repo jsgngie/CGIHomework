@@ -1,0 +1,14 @@
+<div class="seating-plan">
+    <div class="seats">
+        <div class="row" *ngFor="let row of getRows(); let i = index">
+          <div class="seat" *ngFor="let column of getColumns(); let j = index" [class.selected]="isSeatSelected(i, j)" [class.taken]="isSeatTaken(i, j)" (click)="toggleSeat(i, j)">
+            {{ getLabel(i, j) }}
+          </div>
+        </div>
+    </div>
+    <div class="form">
+        <p>How many people?</p>
+        <input type="number" min="1" max="5" (input)="validateInput($event)" class="howMany">
+    </div>
+</div>
+  

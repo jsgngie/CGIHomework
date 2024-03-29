@@ -1,0 +1,48 @@
+.seating-plan {
+    display: flex;
+    flex-direction: column;
+  }
+  
+.seats {
+flex: 1;
+display: grid;
+grid-gap: 5px;
+flex-direction: column;
+}
+
+.row {
+display: flex;
+}
+
+.seat {
+padding: 10px;
+background-color: rgb(226, 196, 24);
+border: 1px solid rgb(253, 253, 253);
+text-align: center;
+cursor:pointer;
+border-radius: 3px;
+margin-left: 2.5px;
+}
+
+.selected {
+background-color: green;
+cursor:pointer;
+}
+
+.taken {
+background-color: rgb(233, 94, 94);
+cursor:initial;
+}
+
+.howMany {
+    margin-left: 20px;
+    width: 50px;
+    text-align: center;
+}
+
+.form {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 10px;
+}

@@ -28,4 +28,6 @@ public class MovieService {
     public Optional<Rating> findRatingByMovieId(String id) {
         return ratingRepository.findByMovieId(id);
     }
+
+
 }

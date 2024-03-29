@@ -8,29 +8,30 @@
   <div class="daySelector">
 
     <div class="dropdown">
-      <select class="dropdown-select">
+      <select class="dropdown-select" [(ngModel)]="selectedGenre">
         <option value="">All Genres</option>
         <option *ngFor="let genre of genres" [value]="genre">{{genre}}</option>
       </select>
     </div>
-
-    <div class="day" (click)="updateMovieSlice(0)">Mon</div>
-    <div class="day" (click)="updateMovieSlice(5)">Tue</div>
-    <div class="day" (click)="updateMovieSlice(10)">Wed</div>
-    <div class="day" (click)="updateMovieSlice(15)">Thu</div>
-    <div class="day" (click)="updateMovieSlice(20)">Fri</div>
-    <div class="day" (click)="updateMovieSlice(25)">Sat</div>
-    <div class="day" (click)="updateMovieSlice(30)">Sun</div>
+    
+    <div class="day" (click)="this.dayIndex = -1">All</div>
+    <div class="day" (click)="this.dayIndex = 0">Mon</div>
+    <div class="day" (click)="this.dayIndex = 1">Tue</div>
+    <div class="day" (click)="this.dayIndex = 2">Wed</div>
+    <div class="day" (click)="this.dayIndex = 3">Thu</div>
+    <div class="day" (click)="this.dayIndex = 4">Fri</div>
+    <div class="day" (click)="this.dayIndex = 5">Sat</div>
+    <div class="day" (click)="this.dayIndex = 6">Sun</div>
 
   </div>
 
   <div class="dayContainer" *ngIf="movies">
 
-    <div *ngFor="let movie of getMoviesSlice(); let i = index">
+    <div *ngFor="let movie of filterMovies(); let i = index">
 
-      <div class="movie" (click)="showPopup(this.movie, '../assets/pics/Movie' + (getNumber()+i+1) + '.png')">
+      <div class="movie" (click)="showPopup(this.movie, '../assets/pics/Movie1.png')">
         
-        <img class="image" [src]="'../assets/pics/Movie' + (getNumber()+i+1) + '.png'">
+        <img class="image" [src]="getMovieImagePath(i)">
         <p class="primaryTitle">{{movie.primaryTitle}}</p>
         <p class="originalTitle">{{movie.originalTitle}}</p>
         
@@ -46,18 +47,22 @@
 
   </div>
 
-  <div class="popupContainer" [class.visible]="isPopupVisible" (click)="closePopup()">
-    
+  <div class="popupContainer" [class.visible]="isPopupVisible">
     <div class="popupContent" (click)="$event.stopPropagation()">
       <div class="movieInfo">
         <p class="popUpPrimaryTitle">{{selectedMovie?.primaryTitle}}</p>
         <img class="popImage" [src]=this.popUpImg>
+        <div class="ratingContainer" *ngIf="this.ratings">
+          <div class="rating">{{this.ratings.rating}}/10</div>
+          <div class="ratingCount">{{this.ratings.ratingCount}} votes</div>
+        </div>
+        <button (click)="submitMovie(selectedMovie)" class="watch">Submit</button>
       </div>
       <div class="seatSelection">
-        
+        <app-seating></app-seating>
       </div>
+      <p class="exit" (click)="closePopup()">X</p>
     </div>
   </div>
   
-
 </div>

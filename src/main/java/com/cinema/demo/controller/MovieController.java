@@ -8,10 +8,7 @@ import com.cinema.demo.services.MovieService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -28,10 +25,15 @@ public class MovieController {
     //DEV
     @GetMapping("/readMovies")
     public String readBasics() {
-        database.readMoviesTSV();
-        database.readRatingTSV();
+        database.readMoviesTSV(true);
+        database.readRatingTSV(false);
         return "data read";
+    }
 
+    @GetMapping("/readRating")
+    public String readRatings() {
+        database.readRatingTSV(false);
+        return "data read";
     }
 
     @GetMapping("/randomMovies")
@@ -44,5 +46,11 @@ public class MovieController {
     public ResponseEntity<Optional<Rating>> getRatingById(@PathVariable String id) {
         Optional<Rating> rating = movieService.findRatingByMovieId(id);
         return new ResponseEntity<>(rating, HttpStatus.OK);
+    }
+
+    @PostMapping("/watchMovie")
+    public ResponseEntity<HttpStatus> watchMovie(@RequestBody Movie movie) {
+        System.out.println(movie);
+        return null;
     }
 }

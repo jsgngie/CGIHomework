@@ -31,11 +31,18 @@ public class LocalDatabase {
         this.filter = createFilter();
     }
 
-    public void readRatingTSV() {
+    public void readRatingTSV(boolean skip) {
 
         try (BufferedReader br = new BufferedReader(new FileReader("src/main/java/com/cinema/demo/data/title.ratings.tsv"))) {
             String line;
             boolean isFirst = true;
+
+            if (skip) {
+                for (int i = 0; i < 576100000; i++) {
+                    System.out.println("Skipping");
+                    br.readLine();
+                }
+            }
 
             while ((line = br.readLine()) != null) {
 
@@ -67,11 +74,18 @@ public class LocalDatabase {
         System.out.println("Finished adding ratings.");
     }
 
-    public void readMoviesTSV() {
+    public void readMoviesTSV(boolean skip) {
 
         try (BufferedReader br = new BufferedReader(new FileReader("src/main/java/com/cinema/demo/data/title.basics.tsv"))) {
             String line;
             boolean isFirst = true;
+
+            if (skip) {
+                for (int i = 0; i < 800000; i++) {
+                    System.out.println("Skipping");
+                    br.readLine();
+                }
+            }
 
             while ((line = br.readLine()) != null) {
 
@@ -92,12 +106,12 @@ public class LocalDatabase {
                 //Checks
                 if (parseNullableInt(parts[7]) == null || !titleType.equals("movie") || isAdult == 1 || originalTitle.length() > 255 || primaryTitle.length() > 255) continue;
 
-                String[] genres = parts[8].split(",");
+                String[] nameParts = primaryTitle.split(",");
 
                 boolean flag = false;
 
-                for (String genre : genres) {
-                    if (filter.contains(genre)) {
+                for (String part : nameParts) {
+                    if (filter.contains(part)) {
                         flag = true;
                         break;
                     }

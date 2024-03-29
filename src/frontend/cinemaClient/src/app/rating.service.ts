@@ -11,7 +11,7 @@ export class RatingService {
   
   constructor(private http: HttpClient) { }
 
-  public getMovieRating(id: string): Observable<Rating[]> {
-    return this.http.get<any>(`${this.baseUrl}/findRating/${id}`);
+  public getMovieRating(id: string): Observable<Rating> {
+    return this.http.get<Rating>(`${this.baseUrl}/findRating/${id}`);
   }
 }

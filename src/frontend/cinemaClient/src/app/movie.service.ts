@@ -7,10 +7,16 @@ import { Movie } from './movie';
   providedIn: 'root'
 })
 export class MovieService {
-  private baseUrl = 'http://localhost:8080/api/movies/randomMovies';
+  private baseUrl = 'http://localhost:8080/api/movies';
   constructor(private http: HttpClient) { }
 
   public getMovies(): Observable<Movie[]> {
-    return this.http.get<Movie[]>(this.baseUrl)
-  }
+    const url = `${this.baseUrl}/randomMovies`;
+    return this.http.get<Movie[]>(url);
+}
+
+public watchMovie(movie: Movie): Observable<Movie> {
+    const url = `${this.baseUrl}/watchMovie`;
+    return this.http.post<Movie>(url, {movie});
+}
 }
